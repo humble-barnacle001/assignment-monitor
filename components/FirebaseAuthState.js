@@ -2,48 +2,53 @@ import { useEffect, useContext } from "react";
 import firebase from "../firebase";
 import { Context } from "../context";
 import { useRouter } from "next/router";
+import { onAuthStateChanged, getAuth } from "firebase/auth";
+import { terminate, getFirestore } from "firebase/firestore";
 
 export default function FirebaseAuthState({ children }) {
     const {
         state: { user },
-        dispatch
+        dispatch,
     } = useContext(Context);
+
     const router = useRouter();
+    const auth = getAuth(firebase);
 
     useEffect(() => {
         // Redirects to home page after each successful login only
         if (user && router.pathname === "/auth") router.push("/");
-    }, [user]);
+    }, [router, user]);
 
     useEffect(() => {
-        return firebase.auth().onAuthStateChanged(
+        return onAuthStateChanged(
+            auth,
             async (user) => {
                 if (!user) {
-                    firebase.firestore().terminate();
+                    await terminate(getFirestore(firebase));
                     dispatch({
-                        type: "LOGOUT"
+                        type: "LOGOUT",
                     });
                 } else {
                     dispatch({
                         type: "LOGIN",
-                        payload: { uid: user.uid }
+                        payload: { uid: user.uid },
                     });
                 }
             },
             (e) => {
                 console.log("Error in firebase state component", e);
                 dispatch({
-                    type: "LOGOUT"
+                    type: "LOGOUT",
                 });
                 window.halfmoon.initStickyAlert({
                     content: "Verification failed!!",
                     title: "Error!!",
                     alertType: "alert-danger",
-                    fillType: "filled"
+                    fillType: "filled",
                 });
             }
         );
-    }, []);
+    }, [auth, dispatch]);
 
     return <>{children}</>;
 }

@@ -37,7 +37,7 @@ const AddTransaction = () => {
                             const {
                                 purpose: description,
                                 credit,
-                                debit
+                                debit,
                             } = data;
                             const amount = parseInt(data.amount),
                                 timestamp = new Date(data.timestamp).getTime();
@@ -45,7 +45,7 @@ const AddTransaction = () => {
                                 description,
                                 credit,
                                 amount,
-                                timestamp
+                                timestamp,
                             };
                             if (credit === debit)
                                 window.alert("Error detected");

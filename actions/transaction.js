@@ -1,17 +1,32 @@
 import firebase from "../firebase";
+import { getAuth } from "firebase/auth";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    serverTimestamp,
+    deleteDoc,
+    doc,
+} from "firebase/firestore";
+
+const auth = getAuth(firebase);
 
 export const addTransaction = async (data) => {
-    const user = firebase.auth().currentUser;
-    const ref = firebase
-        .firestore()
-        .collection(`data/${user ? user.uid : "none"}/transactions`);
-    ref.add({...data, _v: firebase.firestore.FieldValue.serverTimestamp()})
+    const user = auth.currentUser;
+    const ref = collection(
+        getFirestore(firebase),
+        `data/${user ? user.uid : "none"}/transactions`
+    );
+    addDoc(ref, {
+        ...data,
+        _v: serverTimestamp(),
+    })
         .then(() =>
             window.halfmoon.initStickyAlert({
                 content: "Added successfully",
                 title: "Success!!",
                 alertType: "alert-success",
-                fillType: "filled"
+                fillType: "filled",
             })
         )
         .catch((e) => {
@@ -20,24 +35,23 @@ export const addTransaction = async (data) => {
                 content: "Error adding new transaction",
                 title: "Error!!",
                 alertType: "alert-danger",
-                fillType: "filled"
+                fillType: "filled",
             });
         });
 };
 
 export const delTransaction = async (id) => {
-    const user = firebase.auth().currentUser;
+    const user = auth.currentUser;
     if (id && user) {
-        firebase
-            .firestore()
-            .doc(`data/${user.uid}/transactions/${id}`)
-            .delete()
+        deleteDoc(
+            doc(getFirestore(firebase), `data/${user.uid}/transactions/${id}`)
+        )
             .then(() =>
                 window.halfmoon.initStickyAlert({
                     content: "Deleted successfully",
                     title: "Success!!",
                     alertType: "alert-success",
-                    fillType: "filled"
+                    fillType: "filled",
                 })
             )
             .catch((e) => {
@@ -46,7 +60,7 @@ export const delTransaction = async (id) => {
                     content: "Error deleting the transaction",
                     title: "Error!!",
                     alertType: "alert-danger",
-                    fillType: "filled"
+                    fillType: "filled",
                 });
             });
     }

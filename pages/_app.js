@@ -44,7 +44,7 @@ export default function MyApp({ Component, pageProps }) {
     return (
         <>
             <Head>
-                <title>Expense Monitor</title>
+                <title>Assignment Tracker</title>
             </Head>
             <Provider>
                 <FirebaseAuthState>

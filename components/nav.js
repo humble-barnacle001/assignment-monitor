@@ -6,7 +6,7 @@ import { Context } from "../context";
 const Nav = () => {
     const {
         state: { user, loading },
-        dispatch
+        dispatch,
     } = useContext(Context);
 
     return (
@@ -18,7 +18,7 @@ const Nav = () => {
                             <li className='nav-item'>
                                 <Link href='/'>
                                     <a className='nav-link text-primary'>
-                                        <span className=' d-none d-sm-flex'>
+                                        <span className='d-none d-sm-flex'>
                                             Home
                                         </span>
                                         <span className='d-sm-none'>
@@ -84,6 +84,12 @@ const Nav = () => {
                             </li>
                         )}
                     </ul>
+                </div>
+                <div className='d-flex flex-row' style={{ gap: "1rem" }}>
+                    <span className='d-none d-md-flex font-weight-bold text-uppercase'>
+                        Assignment Tracker
+                    </span>
+                    <span className='badge badge-danger'>beta</span>
                 </div>
                 <div>
                     <button

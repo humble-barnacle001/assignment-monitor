@@ -9,7 +9,7 @@ const reducer = (state, action) => {
                 ...state,
                 user: action.payload,
                 transaction: [],
-                loading: false
+                loading: false,
             };
         case "LOAD":
             return { ...state, loading: true };
@@ -26,7 +26,7 @@ const intialState = {
     user: null,
     loading: true,
     transaction: [],
-    tload: false
+    tload: false,
 };
 
 const Context = createContext({});

@@ -8,12 +8,12 @@
 
 
 <url>
-  <loc>https://expense-monitor.ml/</loc>
+  <loc>https://assignment-tracker.vercel.app/</loc>
   <lastmod>2021-08-01T13:52:25+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://expense-monitor.ml/apiStatus</loc>
+  <loc>https://assignment-tracker.vercel.app/apiStatus</loc>
   <lastmod>2021-08-01T13:52:25+00:00</lastmod>
   <priority>0.80</priority>
 </url>

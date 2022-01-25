@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import { Context } from "../context";
 import Loader from "./Loader";
-import Login from "../pages/auth";
+import Showcase from "./Showcase";
 
 const withAuth = (Component) => {
-    const Auth = (props) => {
+    const EnsureAuth = (props) => {
         const {
-            state: { user, loading }
+            state: { user, loading },
         } = useContext(Context);
 
         return loading ? (
@@ -14,15 +14,15 @@ const withAuth = (Component) => {
         ) : user ? (
             <Component {...props} />
         ) : (
-            <Login />
+            <Showcase />
         );
     };
 
     if (Component.getInitialProps) {
-        Auth.getInitialProps = Component.getInitialProps;
+        EnsureAuth.getInitialProps = Component.getInitialProps;
     }
 
-    return Auth;
+    return EnsureAuth;
 };
 
 export default withAuth;

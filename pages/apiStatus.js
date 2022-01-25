@@ -14,8 +14,8 @@ export async function getServerSideProps(Context) {
     return {
         props: {
             data: `API up and running at`,
-            ts: new Date().getTime()
-        }
+            ts: new Date().getTime(),
+        },
     };
 }
 

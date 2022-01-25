@@ -1,6 +1,6 @@
 {
-    "name": "Expense Monitor",
-    "short_name": "Expense Monitor",
+    "name": "Assignment Tracker",
+    "short_name": "Assignment Tracker",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",

@@ -4,21 +4,32 @@ import Loader from "../components/Loader";
 import withAuth from "../components/PrivateRoute";
 import { Context } from "../context";
 import firebase from "../firebase";
+import { getAuth } from "firebase/auth";
+import {
+    collection,
+    getFirestore,
+    onSnapshot,
+    waitForPendingWrites,
+    enableMultiTabIndexedDbPersistence,
+    terminate,
+} from "firebase/firestore";
 
 const Home = () => {
     const {
         state: { transaction, tload },
-        dispatch
+        dispatch,
     } = useContext(Context);
-    const db = firebase.firestore();
-    const user = firebase.auth().currentUser;
-    const ref = db.collection("data").doc(user.uid).collection("transactions");
 
     useEffect(() => {
+        const db = getFirestore(firebase);
+        enableMultiTabIndexedDbPersistence(db);
+        const user = getAuth(firebase).currentUser;
+        const ref = collection(db, `data/${user.uid}/transactions`);
         dispatch({ type: "LOAD_TRANSACTION" });
-        db.waitForPendingWrites()
+        const unsubscribe = waitForPendingWrites(db)
             .then(() =>
-                ref.orderBy("timestamp").onSnapshot(
+                onSnapshot(
+                    ref,
                     (doc) => {
                         const transaction = [];
                         let bal = 0,
@@ -34,12 +45,12 @@ const Home = () => {
                                     ...data,
                                     bal,
                                     id: d.id,
-                                    cr
+                                    cr,
                                 });
                             });
                         dispatch({
                             type: "TRANSACTION_FETCHED",
-                            payload: transaction
+                            payload: transaction,
                         });
                     },
                     (err) => {
@@ -49,7 +60,7 @@ const Home = () => {
                                 content: "Error while fetching from database",
                                 title: "Error!!",
                                 alertType: "alert-danger",
-                                fillType: "filled"
+                                fillType: "filled",
                             });
                         }
                     }
@@ -58,7 +69,11 @@ const Home = () => {
             .catch((e) =>
                 console.log("Error while waiting for backend update", e)
             );
-    }, [user]);
+        return async function cleanup() {
+            // await unsubscribe();
+            await terminate(db);
+        };
+    }, [dispatch]);
 
     return (
         <div className='container'>
@@ -94,7 +109,7 @@ const Home = () => {
                                                 {new Date(
                                                     t.timestamp
                                                 ).toLocaleString("en-IN", {
-                                                    dateStyle: "short"
+                                                    dateStyle: "short",
                                                 })}
                                             </th>
                                             <td className='text-center'>

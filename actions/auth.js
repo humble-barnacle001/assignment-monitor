@@ -1,15 +1,21 @@
 import firebase from "../firebase";
+import {
+    getAuth,
+    signInWithPopup,
+    GoogleAuthProvider,
+    signOut,
+} from "firebase/auth";
+
+const auth = getAuth(firebase);
 
 export const googleLogin = async () => {
-    await firebase
-        .auth()
-        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+    await signInWithPopup(auth, new GoogleAuthProvider())
         .then(() =>
             window.halfmoon.initStickyAlert({
                 content: "Login successful",
                 title: "Success!!",
                 alertType: "alert-success",
-                fillType: "filled"
+                fillType: "filled",
             })
         )
         .catch((e) => {
@@ -18,23 +24,20 @@ export const googleLogin = async () => {
                 content: "Error while trying to log in",
                 title: "Error!!",
                 alertType: "alert-danger",
-                fillType: "filled"
+                fillType: "filled",
             });
-            throw new Error("Google login failed")
+            throw new Error("Google login failed");
         });
 };
 
 export const logOut = async () => {
-    await firebase
-        .auth()
-        .signOut()
-        .catch((e) => {
-            console.log(e);
-            window.halfmoon.initStickyAlert({
-                content: "Unable to sign out!!",
-                title: "Error!!",
-                alertType: "alert-danger",
-                fillType: "filled"
-            });
+    await signOut(auth).catch((e) => {
+        console.log(e);
+        window.halfmoon.initStickyAlert({
+            content: "Unable to sign out!!",
+            title: "Error!!",
+            alertType: "alert-danger",
+            fillType: "filled",
         });
+    });
 };

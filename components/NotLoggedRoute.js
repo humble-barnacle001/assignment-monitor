@@ -4,9 +4,9 @@ import Loader from "./Loader";
 import Home from "../pages/index";
 
 const noAuth = (Component) => {
-    const unAuth = (props) => {
+    const EnsureNoAuth = (props) => {
         const {
-            state: { user, loading }
+            state: { user, loading },
         } = useContext(Context);
 
         return loading ? (
@@ -19,10 +19,10 @@ const noAuth = (Component) => {
     };
 
     if (Component.getInitialProps) {
-        unAuth.getInitialProps = Component.getInitialProps;
+        EnsureNoAuth.getInitialProps = Component.getInitialProps;
     }
 
-    return unAuth;
+    return EnsureNoAuth;
 };
 
 export default noAuth;
