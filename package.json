@@ -1,0 +1,30 @@
+{
+  "name": "expense-monitor",
+  "version": "0.1.2",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "export": "next export",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/humble-barnacle001/expense-monitor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/humble-barnacle001/expense-monitor/issues"
+  },
+  "homepage": "https://github.com/humble-barnacle001/expense-monitor#readme",
+  "dependencies": {
+    "@svgr/webpack": "^6.2.0",
+    "firebase": "^8.8.1",
+    "next": "^12.0.8",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.2"
+  }
+}
