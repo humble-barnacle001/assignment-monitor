@@ -22,7 +22,10 @@ const Home = () => {
 
     useEffect(() => {
         const db = getFirestore(firebase);
-        enableMultiTabIndexedDbPersistence(db);
+        enableMultiTabIndexedDbPersistence(db)
+            .catch((e) => {
+                console.log("Could not enable persistance", e);
+            });
         const user = getAuth(firebase).currentUser;
         const ref = collection(db, `data/${user.uid}/transactions`);
         dispatch({ type: "LOAD_TRANSACTION" });
@@ -69,10 +72,6 @@ const Home = () => {
             .catch((e) =>
                 console.log("Error while waiting for backend update", e)
             );
-        return async function cleanup() {
-            // await unsubscribe();
-            await terminate(db);
-        };
     }, [dispatch]);
 
     return (
