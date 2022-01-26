@@ -1,6 +1,6 @@
 {
     "name": "assignment-monitor",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "Monitor Assignments",
     "main": "index.js",
     "scripts": {

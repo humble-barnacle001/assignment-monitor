@@ -89,7 +89,7 @@ const Nav = () => {
                     <span className='d-none d-md-flex font-weight-bold text-uppercase'>
                         Assignment Tracker
                     </span>
-                    <span className='badge badge-danger'>beta</span>
+                    <span className='badge badge-danger'>dev</span>
                 </div>
                 <div>
                     <button
