@@ -7,25 +7,39 @@ const reducer = (state, action) => {
         case "LOGIN":
             return {
                 ...state,
+                error: "",
                 user: action.payload,
-                transaction: [],
+                transaction: null,
                 loading: false,
             };
         case "LOAD":
-            return { ...state, loading: true };
+            return { ...state, error: "", loading: true };
         case "LOAD_TRANSACTION":
-            return { ...state, tload: true };
+            return { ...state, error: "", tload: true };
+        case "TRANSACTION_FETCH_ERROR":
+            return {
+                ...state,
+                transaction: null,
+                error: action.payload,
+                tload: false,
+            };
         case "TRANSACTION_FETCHED":
-            return { ...state, transaction: action.payload, tload: false };
+            return {
+                ...state,
+                error: "",
+                transaction: action.payload,
+                tload: false,
+            };
         default:
             return state;
     }
 };
 
 const intialState = {
+    error: "",
     user: null,
     loading: true,
-    transaction: [],
+    transaction: null,
     tload: false,
 };
 
