@@ -49,22 +49,23 @@ export default function MyApp({ Component, pageProps }) {
 
     useEffect(() => {
         const db = getFirestore(firebase);
-        enableMultiTabIndexedDbPersistence(db)
-            .then(() => {
+        (async () => {
+            try {
+                await enableMultiTabIndexedDbPersistence(db);
                 halfmoonAlert({
                     content: "Successfully enabled persistence",
                     title: "Persistence Enabled",
                     alertType: "alert-success",
                 });
-            })
-            .catch((e) => {
+            } catch (e) {
+                console.error("Could not enable persistence", e);
                 halfmoonAlert({
                     content: "Could not enable persistence",
                     title: "Persistence Disabled",
                     alertType: "alert-danger",
                 });
-                console.error("Could not enable persistence", e);
-            });
+            }
+        })();
     }, []);
 
     return (

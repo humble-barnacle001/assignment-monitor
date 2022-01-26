@@ -7,12 +7,18 @@ export const halfmoonAlert = ({
     timeShown = 5000,
 }) => {
     if (window && window.halfmoon)
-        window.halfmoon.initStickyAlert({
-            content,
-            title,
-            alertType,
-            fillType,
-            hasDismissButton,
-            timeShown,
-        });
+        try {
+            window.halfmoon.initStickyAlert({
+                content,
+                title,
+                alertType,
+                fillType,
+                hasDismissButton,
+                timeShown,
+            });
+            return;
+        } catch (e) {
+            console.log(e);
+        }
+    alert(content);
 };
