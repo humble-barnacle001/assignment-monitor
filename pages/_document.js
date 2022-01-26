@@ -57,7 +57,7 @@ class MyDocument extends Document {
                     />
                     <link
                         rel='stylesheet'
-                        href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css'
+                        href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'
                     />
                     <link
                         href='https://cdn.jsdelivr.net/gh/humble-barnacle001/halfmoon@v1.1.1/css/halfmoon-variables.min.css'
