@@ -1,9 +1,15 @@
+import {
+    enableMultiTabIndexedDbPersistence,
+    getFirestore,
+} from "firebase/firestore";
 import Head from "next/head";
 import { useEffect } from "react";
+import { halfmoonAlert } from "../actions/util";
 import AddTransaction from "../components/addTransaction";
 import FirebaseAuthState from "../components/FirebaseAuthState";
 import Nav from "../components/nav";
 import { Provider } from "../context";
+import firebase from "../firebase";
 
 export default function MyApp({ Component, pageProps }) {
     useEffect(() => {
@@ -39,6 +45,26 @@ export default function MyApp({ Component, pageProps }) {
                 navigator.serviceWorker.register("serviceWorker.js");
             });
         }
+    }, []);
+
+    useEffect(() => {
+        const db = getFirestore(firebase);
+        enableMultiTabIndexedDbPersistence(db)
+            .then(() => {
+                halfmoonAlert({
+                    content: "Successfully enabled persistence",
+                    title: "Persistence Enabled",
+                    alertType: "alert-success",
+                });
+            })
+            .catch((e) => {
+                halfmoonAlert({
+                    content: "Could not enable persistence",
+                    title: "Persistence Disabled",
+                    alertType: "alert-danger",
+                });
+                console.error("Could not enable persistence", e);
+            });
     }, []);
 
     return (

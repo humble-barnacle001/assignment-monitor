@@ -5,13 +5,14 @@ import {
     GoogleAuthProvider,
     signOut,
 } from "firebase/auth";
+import { halfmoonAlert } from "./util";
 
 const auth = getAuth(firebase);
 
 export const googleLogin = async () => {
     await signInWithPopup(auth, new GoogleAuthProvider())
         .then(() =>
-            window.halfmoon.initStickyAlert({
+            halfmoonAlert({
                 content: "Login successful",
                 title: "Success!!",
                 alertType: "alert-success",
@@ -20,7 +21,7 @@ export const googleLogin = async () => {
         )
         .catch((e) => {
             console.log(e);
-            window.halfmoon.initStickyAlert({
+            halfmoonAlert({
                 content: "Error while trying to log in",
                 title: "Error!!",
                 alertType: "alert-danger",
@@ -33,7 +34,7 @@ export const googleLogin = async () => {
 export const logOut = async () => {
     await signOut(auth).catch((e) => {
         console.log(e);
-        window.halfmoon.initStickyAlert({
+        halfmoonAlert({
             content: "Unable to sign out!!",
             title: "Error!!",
             alertType: "alert-danger",

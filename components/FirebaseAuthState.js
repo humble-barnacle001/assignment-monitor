@@ -1,6 +1,7 @@
 import { useEffect, useContext } from "react";
 import firebase from "../firebase";
 import { Context } from "../context";
+import { halfmoonAlert } from "../actions/util";
 import { useRouter } from "next/router";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
 import { terminate, getFirestore } from "firebase/firestore";
@@ -40,7 +41,7 @@ export default function FirebaseAuthState({ children }) {
                 dispatch({
                     type: "LOGOUT",
                 });
-                window.halfmoon.initStickyAlert({
+                halfmoonAlert({
                     content: "Verification failed!!",
                     title: "Error!!",
                     alertType: "alert-danger",

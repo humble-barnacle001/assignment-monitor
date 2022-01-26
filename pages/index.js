@@ -10,9 +10,8 @@ import {
     getFirestore,
     onSnapshot,
     waitForPendingWrites,
-    enableMultiTabIndexedDbPersistence,
-    terminate,
 } from "firebase/firestore";
+import { halfmoonAlert } from "../actions/util";
 
 const Home = () => {
     const {
@@ -22,10 +21,6 @@ const Home = () => {
 
     useEffect(() => {
         const db = getFirestore(firebase);
-        enableMultiTabIndexedDbPersistence(db)
-            .catch((e) => {
-                console.log("Could not enable persistance", e);
-            });
         const user = getAuth(firebase).currentUser;
         const ref = collection(db, `data/${user.uid}/transactions`);
         dispatch({ type: "LOAD_TRANSACTION" });
@@ -59,7 +54,7 @@ const Home = () => {
                     (err) => {
                         if (user) {
                             console.log(err);
-                            window.halfmoon.initStickyAlert({
+                            halfmoonAlert({
                                 content: "Error while fetching from database",
                                 title: "Error!!",
                                 alertType: "alert-danger",
