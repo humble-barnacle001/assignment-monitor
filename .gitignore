@@ -121,3 +121,4 @@ serviceAccountKey*.json
 #Examples, Uses, Personal
 example.*
 examples/
+.vercel

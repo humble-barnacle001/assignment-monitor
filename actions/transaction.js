@@ -4,26 +4,24 @@ import {
     getFirestore,
     collection,
     addDoc,
-    serverTimestamp,
     deleteDoc,
     doc,
+    updateDoc,
+    deleteField,
+    serverTimestamp,
 } from "firebase/firestore";
+import { halfmoonAlert } from "./util";
 
 const auth = getAuth(firebase);
+const db = getFirestore(firebase);
 
-export const addTransaction = async (data) => {
+export const addSubject = (data) => {
     const user = auth.currentUser;
-    const ref = collection(
-        getFirestore(firebase),
-        `data/${user ? user.uid : "none"}/transactions`
-    );
-    addDoc(ref, {
-        ...data,
-        _v: serverTimestamp(),
-    })
+    const ref = collection(db, `data/${user ? user.uid : "none"}/assignments`);
+    addDoc(ref, data)
         .then(() =>
-            window.halfmoon.initStickyAlert({
-                content: "Added successfully",
+            halfmoonAlert({
+                content: "Subject added successfully",
                 title: "Success!!",
                 alertType: "alert-success",
                 fillType: "filled",
@@ -31,8 +29,8 @@ export const addTransaction = async (data) => {
         )
         .catch((e) => {
             console.log("ERROR IN ADDING:", e);
-            window.halfmoon.initStickyAlert({
-                content: "Error adding new transaction",
+            halfmoonAlert({
+                content: "Error adding new subject",
                 title: "Error!!",
                 alertType: "alert-danger",
                 fillType: "filled",
@@ -40,15 +38,13 @@ export const addTransaction = async (data) => {
         });
 };
 
-export const delTransaction = async (id) => {
+export const delSubject = (id) => {
     const user = auth.currentUser;
     if (id && user) {
-        deleteDoc(
-            doc(getFirestore(firebase), `data/${user.uid}/transactions/${id}`)
-        )
+        deleteDoc(doc(db, `data/${user.uid}/assignments/${id}`))
             .then(() =>
-                window.halfmoon.initStickyAlert({
-                    content: "Deleted successfully",
+                halfmoonAlert({
+                    content: "Subject deleted successfully",
                     title: "Success!!",
                     alertType: "alert-success",
                     fillType: "filled",
@@ -56,12 +52,59 @@ export const delTransaction = async (id) => {
             )
             .catch((e) => {
                 console.log("ERROR IN DELETING:", e);
-                window.halfmoon.initStickyAlert({
-                    content: "Error deleting the transaction",
+                halfmoonAlert({
+                    content: "Error deleting the subject",
                     title: "Error!!",
                     alertType: "alert-danger",
                     fillType: "filled",
                 });
             });
     }
+};
+
+export const addEditAssignment = (
+    subID,
+    data,
+    edit = false,
+    assignID = "",
+    comments = "add",
+    isDelete = false
+) => {
+    const user = auth.currentUser;
+    const ref = doc(db, `data/${user ? user.uid : "none"}/assignments/`, subID);
+    if (!edit) assignID = `${user.uid}${Date.now()}`;
+    updateDoc(ref, {
+        [assignID]: isDelete ? data : { ...data, _v: serverTimestamp() },
+    })
+        .then(() =>
+            halfmoonAlert({
+                content: `Assignment ${comments}ed successfully`,
+                title: "Success!!",
+                alertType: "alert-success",
+                fillType: "filled",
+            })
+        )
+        .catch((e) => {
+            console.log("ERROR IN ADDING:", e);
+            halfmoonAlert({
+                content: `Error ${comments}ing assignment details`,
+                title: "Error!!",
+                alertType: "alert-danger",
+                fillType: "filled",
+            });
+        });
+};
+
+export const delAssignment = (subID, assignID) => {
+    addEditAssignment(subID, deleteField(), true, assignID, "delet", true);
+};
+
+export const markAssignmentDone = (subID, assignID, assignData) => {
+    addEditAssignment(
+        subID,
+        { ...assignData, done: true },
+        true,
+        assignID,
+        "updat"
+    );
 };

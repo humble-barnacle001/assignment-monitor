@@ -87,7 +87,7 @@ const Home = () => {
                     <button
                         className='btn btn-primary btn-rounded btn-block'
                         onClick={() =>
-                            window.halfmoon.toggleModal("addTransaction")
+                            window.halfmoon.toggleModal("addAssignment")
                         }
                         disabled={error}
                     >

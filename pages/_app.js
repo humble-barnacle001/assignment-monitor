@@ -5,7 +5,8 @@ import {
 import Head from "next/head";
 import { useEffect } from "react";
 import { halfmoonAlert } from "../actions/util";
-import AddTransaction from "../components/addTransaction";
+import AddAssignment from "../components/addAssignment";
+import AddSubject from "../components/addSubject";
 import FirebaseAuthState from "../components/FirebaseAuthState";
 import Nav from "../components/nav";
 import { Provider } from "../context";
@@ -75,7 +76,8 @@ export default function MyApp({ Component, pageProps }) {
             </Head>
             <Provider>
                 <FirebaseAuthState>
-                    <AddTransaction />
+                    <AddAssignment />
+                    <AddSubject />
                     <div
                         className='page-wrapper with-navbar with-transitions'
                         data-sidebar-hidden='hidden'
