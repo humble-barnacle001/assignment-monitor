@@ -53,18 +53,22 @@ export default function MyApp({ Component, pageProps }) {
         (async () => {
             try {
                 await enableMultiTabIndexedDbPersistence(db);
-                halfmoonAlert({
-                    content: "Successfully enabled persistence",
-                    title: "Persistence Enabled",
-                    alertType: "alert-success",
-                });
+                setTimeout(() => {
+                    halfmoonAlert({
+                        content: "Successfully enabled persistence",
+                        title: "Persistence Enabled",
+                        alertType: "alert-success",
+                    });
+                }, 5000);
             } catch (e) {
                 console.error("Could not enable persistence", e);
-                halfmoonAlert({
-                    content: "Could not enable persistence",
-                    title: "Persistence Disabled",
-                    alertType: "alert-danger",
-                });
+                setTimeout(() => {
+                    halfmoonAlert({
+                        content: "Could not enable persistence",
+                        title: "Persistence Disabled",
+                        alertType: "alert-danger",
+                    });
+                }, 5000);
             }
         })();
     }, []);
