@@ -59,7 +59,7 @@ export default function MyApp({ Component, pageProps }) {
                         title: "Persistence Enabled",
                         alertType: "alert-success",
                     });
-                }, 5000);
+                }, 1000);
             } catch (e) {
                 console.error("Could not enable persistence", e);
                 setTimeout(() => {
@@ -68,7 +68,7 @@ export default function MyApp({ Component, pageProps }) {
                         title: "Persistence Disabled",
                         alertType: "alert-danger",
                     });
-                }, 5000);
+                }, 500);
             }
         })();
     }, []);
