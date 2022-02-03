@@ -28,7 +28,7 @@ const Subject = ({ subject_id, data }) => {
                 </h3>
             </div>
             <div className='row'>
-                <div className='col m-auto'>
+                <div className='col-11 col-md-12 m-auto'>
                     {assignments && Object.keys(assignments).length > 0 ? (
                         <table className='table table-bordered'>
                             <thead>
