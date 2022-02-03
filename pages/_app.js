@@ -15,7 +15,7 @@ import firebase from "../firebase";
 export default function MyApp({ Component, pageProps }) {
     useEffect(() => {
         const el = document.getElementById("themeToggler");
-        function setThemeICon() {
+        function setThemeIcon() {
             if (window.halfmoon) {
                 if (halfmoon.readCookie("halfmoon_preferredMode"))
                     if (
@@ -31,15 +31,15 @@ export default function MyApp({ Component, pageProps }) {
                         document.body.classList.add("dark-mode");
                         el.innerHTML = "<i class='bi bi-sun-fill'></i>";
                     }
-            } else setTimeout(() => setThemeICon(), 1000);
+            } else setTimeout(() => setThemeIcon(), 1000);
         }
         el.addEventListener("click", () => {
             halfmoon.toggleDarkMode();
-            setThemeICon();
+            setThemeIcon();
         });
 
         // Works only for reload or initial load
-        setThemeICon();
+        setThemeIcon();
 
         if ("serviceWorker" in navigator) {
             window.addEventListener("load", () => {
@@ -53,13 +53,6 @@ export default function MyApp({ Component, pageProps }) {
         (async () => {
             try {
                 await enableMultiTabIndexedDbPersistence(db);
-                setTimeout(() => {
-                    halfmoonAlert({
-                        content: "Successfully enabled persistence",
-                        title: "Persistence Enabled",
-                        alertType: "alert-success",
-                    });
-                }, 1000);
             } catch (e) {
                 console.error("Could not enable persistence", e);
                 setTimeout(() => {
