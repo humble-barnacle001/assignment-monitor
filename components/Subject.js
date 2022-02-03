@@ -46,7 +46,7 @@ const Subject = ({ subject_id, data }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {assignments &&
+                                {assignments && // TODO: Add sorting by "by" data
                                     Object.keys(assignments).map(
                                         (assignment_id) => {
                                             const assignment =
