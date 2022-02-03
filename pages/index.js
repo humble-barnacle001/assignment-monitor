@@ -9,6 +9,8 @@ import {
     collection,
     getFirestore,
     onSnapshot,
+    orderBy,
+    query,
     waitForPendingWrites,
 } from "firebase/firestore";
 
@@ -21,12 +23,12 @@ const Home = () => {
     useEffect(() => {
         const db = getFirestore(firebase);
         const user = getAuth(firebase).currentUser;
-        const ref = collection(db, `data/${user.uid}/assignments`);
+        const queryRef = query(collection(db, `data/${user.uid}/assignments`), orderBy("by"));
         dispatch({ type: "LOAD_TRANSACTION" });
         waitForPendingWrites(db)
             .then(() =>
                 onSnapshot(
-                    ref,
+                    queryRef,
                     (doc) => {
                         const assignments = {};
                         if (!doc.empty)
